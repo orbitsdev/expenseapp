@@ -15,7 +15,8 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime _selectedDate = DateTime(0);
+  DateTime? _selectedDate;
+  
 
   void _submitData() {
     if (_amountController.text.isEmpty) {
@@ -29,6 +30,7 @@ class _NewTransactionState extends State<NewTransaction> {
         _selectedDate == DateTime(0)) {
       return;
     }
+  
 
     widget.addtransaction(
       _titleController.text,
@@ -90,10 +92,8 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Row(
             children: [
               Expanded(
-                child: Text(_selectedDate == DateTime(0)
-                    ? 'No Date Selected'
-                    : 'Picked Date ${DateFormat.yMd().format(_selectedDate)}'),
-              ),
+                child:   _selectedDate == null ? Text('No Date Selected') : Text('${DateFormat.yMd().format(_selectedDate!)}'), 
+                ),
               TextButton(
                   onPressed: _presentDatePicker, child: Text('Choose Date')),
             ],

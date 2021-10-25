@@ -40,13 +40,14 @@ class Chart extends StatelessWidget {
         if (recentTransaction[i].date.day == weekDays.day &&
             recentTransaction[i].date.month == weekDays.month &&
             recentTransaction[i].date.year == weekDays.year) {
-          totalSum += recentTransaction[i].amount;
+
+             totalSum += recentTransaction[i].amount;
         }
       }
 
    
 
-    return  Item(day: DateFormat('EEEE').format(weekDays).substring(0,1), amount: totalSum);
+    return  Item(day: DateFormat('EEE').format(weekDays), amount: totalSum);
      
     }).reversed.toList();
   }

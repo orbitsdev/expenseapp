@@ -16,13 +16,13 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   final List<Transaction> _userTransaction = [
     Transaction(
-        id: 'ta', title: 'New House', amount: 99.00, date: DateTime.now()),
+        id: 'ta', title: 'New House', amount: 10.00, date: DateTime.now()),
   
     Transaction(
-        id: 't1', title: 'Burger', amount: 99.00, date: DateTime.now()),
+        id: 't1', title: 'Burger', amount: 20.00, date: DateTime.now()),
   
     Transaction(
-        id: 't3', title: 'Groceries', amount: 99.00, date: DateTime.now()),
+        id: 't3', title: 'Groceries', amount: 10.00, date: DateTime.now()),
   
    
   ];
