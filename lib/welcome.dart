@@ -4,7 +4,6 @@ import 'package:expenseapp/widgets/new_transaction.dart';
 import 'package:expenseapp/widgets/transaction_list.dart';
 
 import 'package:flutter/material.dart';
-  
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -17,16 +16,10 @@ class _WelcomeState extends State<Welcome> {
   final List<Transaction> _userTransaction = [
     Transaction(
         id: 'ta', title: 'New House', amount: 10.00, date: DateTime.now()),
-  
-    Transaction(
-        id: 't1', title: 'Burger', amount: 20.00, date: DateTime.now()),
-  
+    Transaction(id: 't1', title: 'Burger', amount: 20.00, date: DateTime.now()),
     Transaction(
         id: 't3', title: 'Groceries', amount: 10.00, date: DateTime.now()),
-  
-   
   ];
-
 
   List<Transaction> get _recentTransaction {
     return _userTransaction.where((element) {
@@ -37,26 +30,21 @@ class _WelcomeState extends State<Welcome> {
   }
 
   void _addNewTransaction(String title, double amount, DateTime choosendate) {
-  
     final newusertransaction = Transaction(
         id: DateTime.now().toString(),
-        title:title.toUpperCase() ,
+        title: title.toUpperCase(),
         amount: amount,
         date: choosendate);
 
     setState(() {
       _userTransaction.add(newusertransaction);
     });
-
-    
   }
 
-  void _deleteTransaction(String id){
-
+  void _deleteTransaction(String id) {
     setState(() {
-        _userTransaction.removeWhere((element)=> element.id == id); 
+      _userTransaction.removeWhere((element) => element.id == id);
     });
-    
   }
 
   void _startAddNewTransaction(BuildContext context) {
@@ -86,16 +74,42 @@ class _WelcomeState extends State<Welcome> {
         ],
       ),
       backgroundColor: Colors.white,
-      body: ListView(
-        children: [
-          Chart(recentTransaction: _recentTransaction),
-          Column(
-            children: [
-              TransactionList(transactionlist: _userTransaction, deletetransaction: _deleteTransaction ),
-            ],
-          ),
-        ],
-      ),
+      body: _userTransaction.length <= 0
+          ? Container(
+            padding: EdgeInsets.only(top:50),
+            height: MediaQuery.of(context).size.height,
+            alignment: Alignment.center,
+            child: Column(
+              
+                children: [
+                  Text(
+                    'Record is Empty',
+                    style: TextStyle(fontSize: 16 , color: Colors.grey,),
+                    
+                  ),
+                  Container(
+                    height: 200,
+
+                    child: Image.asset(
+                      'assets/images/marketing.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
+              ),
+          )
+          : ListView(
+              children: [
+                Chart(recentTransaction: _recentTransaction),
+                Column(
+                  children: [
+                    TransactionList(
+                        transactionlist: _userTransaction,
+                        deletetransaction: _deleteTransaction),
+                  ],
+                ),
+              ],
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
