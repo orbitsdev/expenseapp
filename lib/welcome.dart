@@ -5,6 +5,7 @@ import 'package:expenseapp/widgets/chart.dart';
 import 'package:expenseapp/widgets/new_transaction.dart';
 import 'package:expenseapp/widgets/transaction_list.dart';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatefulWidget {
@@ -131,7 +132,7 @@ class _WelcomeState extends State<Welcome> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       
       
-      floatingActionButton: Platform.isIOS ?  Container() :  FloatingActionButton(
+      floatingActionButton:  FloatingActionButton(
         onPressed: () {
           _startAddNewTransaction(context);
         },
