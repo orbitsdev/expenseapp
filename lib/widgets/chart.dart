@@ -40,27 +40,23 @@ class Chart extends StatelessWidget {
         if (recentTransaction[i].date.day == weekDays.day &&
             recentTransaction[i].date.month == weekDays.month &&
             recentTransaction[i].date.year == weekDays.year) {
-
-             totalSum += recentTransaction[i].amount;
+          totalSum += recentTransaction[i].amount;
         }
       }
 
-   
-
-    return  Item(day: DateFormat('EEE').format(weekDays), amount: totalSum);
-     
+      return Item(day: DateFormat('EEE').format(weekDays), amount: totalSum);
     }).reversed.toList();
   }
 
-  double get totalSpending{
-  return groupTransactionValues.fold(0, (sum, element) => sum + element.amount);
+  double get totalSpending {
+    return groupTransactionValues.fold(
+        0, (sum, element) => sum + element.amount);
   }
 
   @override
   Widget build(BuildContext context) {
-   
+     
     return Card(
-
       elevation: 6,
       margin: EdgeInsets.all(20),
       child: Container(
@@ -70,8 +66,13 @@ class Chart extends StatelessWidget {
           children: [
             ...groupTransactionValues.asMap().entries.map((data) {
               return Flexible(
-                fit: FlexFit.tight,
-                child: ChartBar(dayslabel: data.value.day, spendingamount: data.value.amount,  spendinpcoftotal: totalSpending == 0.0 ? 0.0 : data.value.amount / totalSpending));
+                  fit: FlexFit.tight,
+                  child: ChartBar(
+                      dayslabel: data.value.day,
+                      spendingamount: data.value.amount,
+                      spendinpcoftotal: totalSpending == 0.0
+                          ? 0.0
+                          : data.value.amount / totalSpending));
             }).toList()
           ],
         ),

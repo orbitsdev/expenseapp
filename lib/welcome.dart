@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:expenseapp/models/transaction.dart';
 import 'package:expenseapp/widgets/chart.dart';
 import 'package:expenseapp/widgets/new_transaction.dart';
@@ -21,6 +23,7 @@ class _WelcomeState extends State<Welcome> {
         id: 't3', title: 'Groceries', amount: 10.00, date: DateTime.now()),
   ];
 
+  bool _isShow = false;
   List<Transaction> get _recentTransaction {
     return _userTransaction.where((element) {
       return element.date.isAfter(DateTime.now().subtract(
@@ -61,57 +64,74 @@ class _WelcomeState extends State<Welcome> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery = MediaQuery.of(context);
+
+    // return boolean data. check if the phonse is on landscape mode
+    final isLandScape = mediaquery.orientation == Orientation.landscape;
+
+    final appBar = AppBar(
+      title: Text('Expense App', style: Theme.of(context).textTheme.headline1),
+      actions: [
+        IconButton(
+            onPressed: () {
+              _startAddNewTransaction(context);
+            },
+            icon: Icon(Icons.add)),
+      ],
+    );
+    final listWediget = Column(
+      children: [
+        Container(
+          height: (mediaquery.size.height -
+                  appBar.preferredSize.height -
+                  mediaquery.padding.top) *
+              0.7,
+          child: TransactionList(
+              transactionlist: _userTransaction,
+              deletetransaction: _deleteTransaction),
+        ),
+      ],
+    );
+
     return Scaffold(
-      appBar: AppBar(
-        title:
-            Text('Expense App', style: Theme.of(context).textTheme.headline1),
-        actions: [
-          IconButton(
-              onPressed: () {
-                _startAddNewTransaction(context);
-              },
-              icon: Icon(Icons.add)),
+      appBar: appBar,
+      backgroundColor: Colors.white,
+      body: ListView(
+        children: [
+          if (isLandScape)
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text('Show Chart'),
+              Switch(
+                  value: _isShow,
+                  onChanged: (val) {
+                    setState(() {
+                      _isShow = val;
+                    });
+                  }),
+            ]),
+          if (isLandScape)
+            _isShow
+                ? Container(
+                    height: (mediaquery.size.height -
+                            appBar.preferredSize.height -
+                            mediaquery.padding.top) *
+                        0.7,
+                    child: Chart(recentTransaction: _recentTransaction))
+                : listWediget,
+          if (!isLandScape)
+            Container(
+                height: (mediaquery.size.height -
+                        appBar.preferredSize.height -
+                        mediaquery.padding.top) *
+                    0.3,
+                child: Chart(recentTransaction: _recentTransaction)),
+          if (!isLandScape) listWediget,
         ],
       ),
-      backgroundColor: Colors.white,
-      body: _userTransaction.length <= 0
-          ? Container(
-            padding: EdgeInsets.only(top:50),
-            height: MediaQuery.of(context).size.height,
-            alignment: Alignment.center,
-            child: Column(
-              
-                children: [
-                  Text(
-                    'Record is Empty',
-                    style: TextStyle(fontSize: 16 , color: Colors.grey,),
-                    
-                  ),
-                  Container(
-                    height: 200,
-
-                    child: Image.asset(
-                      'assets/images/marketing.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ],
-              ),
-          )
-          : ListView(
-              children: [
-                Chart(recentTransaction: _recentTransaction),
-                Column(
-                  children: [
-                    TransactionList(
-                        transactionlist: _userTransaction,
-                        deletetransaction: _deleteTransaction),
-                  ],
-                ),
-              ],
-            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
+      
+      
+      floatingActionButton: Platform.isIOS ?  Container() :  FloatingActionButton(
         onPressed: () {
           _startAddNewTransaction(context);
         },

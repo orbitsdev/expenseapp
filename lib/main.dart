@@ -1,8 +1,19 @@
 import 'package:expenseapp/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
-void main()=> runApp(MaterialApp(
+void main(){
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitUp,
+  //     DeviceOrientation.portraitDown,
+  //   ]
+  // );
+
+
+  runApp(MaterialApp(
   theme: ThemeData(
     primarySwatch: Colors.green,
     fontFamily: 'OpenSans',
@@ -13,3 +24,4 @@ void main()=> runApp(MaterialApp(
   ),
   home: Welcome()
 ));
+}
