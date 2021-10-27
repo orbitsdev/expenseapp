@@ -16,7 +16,6 @@ class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
-  
 
   void _submitData() {
     if (_amountController.text.isEmpty) {
@@ -25,12 +24,9 @@ class _NewTransactionState extends State<NewTransaction> {
     final titleentered = _titleController.text;
     final amountentered = double.parse(_amountController.text);
 
-    if (titleentered.isEmpty ||
-        amountentered <= 0 ||
-        _selectedDate == DateTime(0)) {
+    if (titleentered.isEmpty || amountentered <= 0 || _selectedDate == null) {
       return;
     }
-  
 
     widget.addtransaction(
       _titleController.text,
@@ -60,7 +56,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-     final mediaquery = MediaQuery.of(context);
+    final mediaquery = MediaQuery.of(context);
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(
@@ -101,10 +97,14 @@ class _NewTransactionState extends State<NewTransaction> {
               child: Row(
                 children: [
                   Expanded(
-                    child:   _selectedDate == null ? Text('No Date Selected') : Text('${DateFormat.yMd().format(_selectedDate!)}'), 
-                    ),
+                    child: _selectedDate == null
+                        ? Text('No Date Selected')
+                        : Text(
+                            '${DateFormat('EEEE, MMMM d, y').format(_selectedDate!)}'),
+                  ),
                   TextButton(
-                      onPressed: _presentDatePicker, child: Text('Choose Date')),
+                      onPressed: _presentDatePicker,
+                      child: Text('Choose Date')),
                 ],
               ),
             ),

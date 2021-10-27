@@ -1,9 +1,7 @@
 import 'package:expenseapp/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-
-void main(){
+void main() {
   // WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setPreferredOrientations(
   //   [
@@ -12,16 +10,16 @@ void main(){
   //   ]
   // );
 
-
   runApp(MaterialApp(
-  theme: ThemeData(
-    primarySwatch: Colors.green,
-    fontFamily: 'OpenSans',
- 
-    textTheme: ThemeData.light().textTheme.copyWith(
-      headline1: TextStyle(fontWeight: FontWeight.bold, fontSize:18, color: Colors.white),
-    ),
-  ),
-  home: Welcome()
-));
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        fontFamily: 'OpenSans',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline1: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.white),
+            ),
+      ),
+      home: Welcome()));
 }

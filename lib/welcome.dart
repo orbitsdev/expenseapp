@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:expenseapp/models/transaction.dart';
 import 'package:expenseapp/widgets/chart.dart';
 import 'package:expenseapp/widgets/new_transaction.dart';
@@ -63,6 +61,44 @@ class _WelcomeState extends State<Welcome> {
         });
   }
 
+  List<Widget> _forLandScapeScreen(
+      MediaQueryData mediaquery, AppBar appBar, Widget listWediget) {
+    return [
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text('Show Chart'),
+        Switch(
+            value: _isShow,
+            onChanged: (val) {
+              setState(() {
+                _isShow = val;
+              });
+            }),
+      ]),
+      _isShow
+          ? Container(
+              height: (mediaquery.size.height -
+                      appBar.preferredSize.height -
+                      mediaquery.padding.top) *
+                  0.7,
+              child: Chart(recentTransaction: _recentTransaction))
+          : listWediget,
+    ];
+  }
+
+  List<Widget> _forPortraitScreen(
+      MediaQueryData mediaquery, AppBar appBar, Widget listWediget) {
+    return [
+      Container(
+        height: (mediaquery.size.height -
+                appBar.preferredSize.height -
+                mediaquery.padding.top) *
+            0.3,
+        child: Chart(recentTransaction: _recentTransaction),
+      ),
+      listWediget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaquery = MediaQuery.of(context);
@@ -100,39 +136,13 @@ class _WelcomeState extends State<Welcome> {
       body: ListView(
         children: [
           if (isLandScape)
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text('Show Chart'),
-              Switch(
-                  value: _isShow,
-                  onChanged: (val) {
-                    setState(() {
-                      _isShow = val;
-                    });
-                  }),
-            ]),
-          if (isLandScape)
-            _isShow
-                ? Container(
-                    height: (mediaquery.size.height -
-                            appBar.preferredSize.height -
-                            mediaquery.padding.top) *
-                        0.7,
-                    child: Chart(recentTransaction: _recentTransaction))
-                : listWediget,
+            ..._forLandScapeScreen(mediaquery, appBar, listWediget),
           if (!isLandScape)
-            Container(
-                height: (mediaquery.size.height -
-                        appBar.preferredSize.height -
-                        mediaquery.padding.top) *
-                    0.3,
-                child: Chart(recentTransaction: _recentTransaction)),
-          if (!isLandScape) listWediget,
+            ..._forPortraitScreen(mediaquery, appBar, listWediget),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      
-      
-      floatingActionButton:  FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           _startAddNewTransaction(context);
         },
